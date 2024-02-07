@@ -68,6 +68,26 @@ def check_todo(id:int)->dict:
     except:
         return json.dumps({"response": "There was problem with checking the Todo"})
 
+def update_todo(id:int,todo:str)->dict:
+    """
+    This function updates the text of the todo item
+    """
+    try:
+        response = requests.put(f"{BASE_URL}/update-todo/{id}", json={"id":id,"text":todo})
+        return json.dumps(response.json())
+    except:
+        return json.dumps({"response": "There was problem with updating the Todo"})
+
+def get_complete_todos()->List[TodoRead]:
+     """
+     This functions returns the list of complete todos
+     """
+     try:
+         response = requests.get(f"{BASE_URL}/complete-todos")
+         return json.dumps(response.json())
+     except:
+          return json.dumps({"response": "Apologies, I could not access the requested information"})
+          
 """
 Mapping available functions
 """
@@ -76,6 +96,8 @@ available_functions = {
     "create_todo":create_todo,
     "delete_todo":delete_todo,
     "check_todo":check_todo,
+    "update_todo":update_todo,
+    "get_complete_todos":get_complete_todos,
 
 }
 
@@ -158,7 +180,39 @@ class OpenAIAssistant:
                        "required":["id"]
                   }
              }
-        }
+        },
+                       {
+             "type": "function",	
+             "function": {
+                  "name":"update_todo",
+                  "description":"This function updates the text of the todo item",
+                  "parameters":{
+                       "type":"object",
+                       "properties":{
+                            "id":{"type":"integer","description":"The id of the todo item to update"},
+                            "todo":{"type":"string","description":"The new text of the todo item"}
+                       },
+                       "required":["id","todo"]
+                  }
+             }
+        },
+         { 
+             "type": "function",
+            "function": {
+                "name": "get_complete_todos",
+                "description": "Get the list of checked todos from the database",
+                "parameters": {
+                     "type": "object",
+                     "properties":{}
+                   
+                },
+                "required":[]
+                
+           
+            }
+                   },
+        
+        
  
 
 
