@@ -2,18 +2,18 @@
 This file to create the model for the todo gpt assistant
 
 """
+import os
+import time
+import json
+import requests
+from typing import Any,List
+from dotenv import load_dotenv, find_dotenv
+from database import TodoCreate,TodoRead
 from openai import OpenAI
 from openai.types.beta import Assistant
 from openai.types.beta.thread import Thread
 from openai.types.beta.threads.thread_message import ThreadMessage
 from openai.types.beta.threads.run import Run
-import json
-from dotenv import load_dotenv, find_dotenv
-import os
-import time
-import requests
-from typing import Any,List
-from database import TodoCreate,TodoRead
 from tools import available_functions,function_descriptions
 
 """
