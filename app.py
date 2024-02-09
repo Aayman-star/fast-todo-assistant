@@ -61,6 +61,14 @@ def get_complete_todos(*,session:Session = Depends(get_session)):
         raise HTTPException(status_code=404, detail="No todos found")
     return todos
 
+@app.get("/incomplete-todos",response_model=List[TodoRead])
+def get_complete_todos(*,session:Session = Depends(get_session)):
+    """Get all complete todos"""
+    todos = session.exec(select(TA).where(TA.is_complete == False)).all()
+    if todos is None:
+        raise HTTPException(status_code=404, detail="No todos found")
+    return todos
+
 @app.put("/check-todo/{task_id}")
 def check_task(*,session:Session = Depends(get_session),task_id:int):
     """Check a task as complete"""

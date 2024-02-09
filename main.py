@@ -9,8 +9,8 @@ if "todo_assistant" not in st.session_state:
     st.session_state.todo_assistant = OpenAIAssistant(
         name = "Todo Assistant",
         instructions = """
-                       Act as a todo assistant by fetching todos from the database or storing todos in the database,
-                       by accessing the api 
+                       Act as a todo assistant by performing all the CRUD(Create,Read,Update,Delete) operations on the todos
+                       in the database,by accessing the api 
                         """
     )
 
