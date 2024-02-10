@@ -17,7 +17,7 @@ print(DATABASE_URL)
 
 
 class Todo_Assistant(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: int | None = Field(default=None, primary_key=True)
     text: str
     is_complete: bool = False
     
@@ -40,6 +40,8 @@ class TodoUpdate(SQLModel):
     
 
 engine = create_engine(DATABASE_URL, echo=True)
+def create_table():
+    SQLModel.metadata.create_all(engine)
 
-SQLModel.metadata.create_all(engine)
+
 
