@@ -3,7 +3,7 @@
 import select
 from fastapi import FastAPI,Body,Depends,HTTPException
 from sqlalchemy.orm import Session
-from database import engine,Todo_Assistant as TA,TodoCreate,TodoRead,TodoUpdate
+from database import engine,Todo_Assistant as TA,TodoCreate,TodoRead,TodoUpdate,create_table
 from fastapi.middleware.cors import CORSMiddleware
 from starlette import status
 import uvicorn
@@ -12,18 +12,17 @@ from typing import List
 
 
 app: FastAPI = FastAPI()
+"""The following function makes sure that the tables are created only when the application starts and not on every reload. 
+It is called lifecycle event"""
+@app.on_event("startup")
 
+def on_startup():
+    create_table()
 
 # Dependency
 def get_session():
     with Session(engine) as session:
         yield session
-
-
-@app.get("/api/python")
-def hello_world():
-    return {"message": "Hello World"}
-
 
 
 @app.get("/",response_model=List[TodoRead])
@@ -32,9 +31,7 @@ def read_todos(*,session:Session=Depends(get_session)):
     todos = session.exec(select(TA).order_by(TA.id)).all()
     if todos is None:
         raise HTTPException(status_code=404, detail="No todos found")
-        #return {"message":"No todos found"	}
     return todos
-
 
 @app.get("/todo/{todo_id}",response_model=TodoRead)
 def get_todo(*,session:Session = Depends(get_session),todo_id:int):
