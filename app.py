@@ -29,7 +29,7 @@ def get_session():
 def read_todos(*,session:Session=Depends(get_session)):
     """Get all Todos"""
     todos = session.exec(select(TA).order_by(TA.id)).all()
-    if todos is None:
+    if not todos:
         raise HTTPException(status_code=404, detail="No todos found")
     return todos
 
@@ -37,7 +37,7 @@ def read_todos(*,session:Session=Depends(get_session)):
 def get_todo(*,session:Session = Depends(get_session),todo_id:int):
     """Get a single todo from the database"""
     todo = session.get(TA, todo_id)  # Get the todo item from the database
-    if todo is None:
+    if not todo:
         raise HTTPException(status_code=404, detail="Todo not found")
     return todo
 
@@ -54,7 +54,7 @@ def create_todo(*,session:Session = Depends(get_session),todo:TodoCreate):
 def get_complete_todos(*,session:Session = Depends(get_session)):
     """Get all complete todos"""
     todos = session.exec(select(TA).where(TA.is_complete == True)).all()
-    if todos is None:
+    if not todos:
         raise HTTPException(status_code=404, detail="No todos found")
     return todos
 
@@ -62,7 +62,7 @@ def get_complete_todos(*,session:Session = Depends(get_session)):
 def get_complete_todos(*,session:Session = Depends(get_session)):
     """Get all complete todos"""
     todos = session.exec(select(TA).where(TA.is_complete == False)).all()
-    if todos is None:
+    if not todos:
         raise HTTPException(status_code=404, detail="No todos found")
     return todos
 
@@ -70,7 +70,7 @@ def get_complete_todos(*,session:Session = Depends(get_session)):
 def check_task(*,session:Session = Depends(get_session),task_id:int):
     """Check a task as complete"""
     db_todo = session.get(TA, task_id)  # Get the todo item from the database
-    if db_todo is None:
+    if not db_todo :
         raise HTTPException(status_code=404, detail="Todo not found")
     db_todo.is_complete = not db_todo.is_complete
     session.add(db_todo)  # Add the updated todo to the session
@@ -83,7 +83,7 @@ def update_todo(*,session:Session = Depends(get_session),task_id:int,todo:TodoUp
     print(task_id,todo)
     """Update Todo Description"""
     db_todo = session.get(TA,task_id)
-    if db_todo is None:
+    if not db_todo:
         raise HTTPException(status_code=404, detail="Todo not found")
     todo_data = todo.model_dump(exclude_unset=True)
     print(todo_data)
@@ -100,7 +100,7 @@ def delete_todo(*,session:Session = Depends(get_session),todo_id:int):
     """Delete a todo from the database"""
     print(f"This is the id {todo_id}")
     todo = session.get(TA,todo_id)
-    if todo is None:
+    if not todo:
         raise HTTPException(status_code=404, detail="Todo not found")
     session.delete(todo)
     session.commit()
