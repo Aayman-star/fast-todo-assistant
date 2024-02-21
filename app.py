@@ -9,9 +9,12 @@ from starlette import status
 import uvicorn
 from sqlmodel import Session, delete,select
 from typing import List
+from auth import router, get_current_user
 
 
 app: FastAPI = FastAPI()
+#This is importing router functions
+app.include_router(router)
 """The following function makes sure that the tables are created only when the application starts and not on every reload. 
 It is called lifecycle event"""
 @app.on_event("startup")
