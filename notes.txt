@@ -1,0 +1,56 @@
+"""
+It is better to create a create_table function to create table when the application starts
+!!Remember to implement this to prevent table creation on every reload
+def create_table():
+    SQLModel.metadata.create_all(engine)
+!!How to call this function
+@app.on_event("startup")
+def on_startup():
+    create_table()
+   
+"""
+# #Creating the login/signup page
+# st.title("Welcome to the todo assistant")
+# choice = st.selectbox("Login or SignUp", ["Login", "SignUp"])
+# # Create an empty container
+# placeholder = st.empty()
+
+# # Insert a form in the container with placeholder.form("login"):
+
+# if choice == "Login":
+#     with placeholder.form("Login"):
+#         st.markdown("#### Enter your credentials")
+#         username = st.text_input("Username") 
+#         password = st.text_input("Password", type="password")
+#         submit = st.form_submit_button("Login")
+
+#         if submit:
+#             try:
+#                 response = requests.post(f"{url}/token", data={'username': username, 'password': password},  
+#                                         )
+#                 if response.status_code == 200:
+#                    token_info = response.json()
+#                 #    st.write(f"Access Token: {token_info['access_token']}")
+#                 #    st.write(f"Token Type: {token_info['token_type']}")
+#                    st.success("Login successful")
+                  
+        
+#         # Import and call your app function here
+       
+#             except Exception as e:
+#                  st.error(f"Login failed: {str(e)}")
+# else:
+#     with placeholder.form("SignUp"):
+#         st.markdown("#### Enter your credentials")
+#         username = st.text_input("Username")
+#         email = st.text_input("Email")
+#         password = st.text_input("Password", type="password")
+#         submit = st.form_submit_button("SignUp")
+#         if submit:
+#             try:
+#                 response = requests.post(f"{url}/", data={'username': username, 'email': email, 'password': password})
+#                 placeholder.empty()
+#                 st.success("Signup successful")
+              
+#             except Exception as e:
+#                  st.error(f"Login failed: {str(e)}")

@@ -6,6 +6,7 @@ import json
 import requests
 from typing import Any,List
 from database import TodoCreate,TodoRead
+from openai.types.shared_params import FunctionDefinition
 """
 Defining the functions
 """
@@ -108,6 +109,7 @@ available_functions = {
 }
 
 function_descriptions = [
+  
         {
 
             "type": "function",
@@ -230,3 +232,89 @@ function_descriptions = [
             }
         }
 ]
+
+
+
+# functions_descriptions = [
+#     FunctionDefinition(
+#         name="get_todos",
+#         description="Get the list of todos from the database",
+#         parameters={
+#             "type": "object",
+#             "properties": {},
+#             "required": []
+#         }
+#     ),
+#     FunctionDefinition(
+#         name="create_todo",
+#         description="Creating a todo and storing in the database",
+#         parameters={
+#             "type": "object",
+#             "properties": {
+#                 "todo": {"type": "string", "description": "The text of the todo items"}
+#             },
+#             "required": ["todo"]
+#         }
+#     ),
+#     FunctionDefinition(
+#         name="delete_todo",
+#         description="Deleting a todo from the database based on the id of the todo item",
+#         parameters={
+#             "type": "object",
+#             "properties": {
+#                 "id": {"type": "integer", "description": "The id of the todo item to delete"}
+#             },
+#             "required": ["id"]
+#         }
+#     ),
+#     FunctionDefinition(
+#         name="check_todo",
+#         description="This function marks the todo as complete by changing the is_complete value from false to true or from true to false",
+#         parameters={
+#             "type": "object",
+#             "properties": {
+#                 "id": {"type": "integer", "description": "The id of the todo item to mark as done"}
+#             },
+#             "required": ["id"]
+#         }
+#     ),
+#     FunctionDefinition(
+#         name="update_todo",
+#         description="This function updates the text of the todo item",
+#         parameters={
+#             "type": "object",
+#             "properties": {
+#                 "id": {"type": "integer", "description": "The id of the todo item to update"},
+#                 "todo": {"type": "string", "description": "The new text of the todo item"}
+#             },
+#             "required": ["id", "todo"]
+#         }
+#     ),
+#     FunctionDefinition(
+#         name="get_complete_todos",
+#         description="Get the list of checked todos from the database",
+#         parameters={
+#             "type": "object",
+#             "properties": {},
+#             "required": []
+#         }
+#     ),
+#     FunctionDefinition(
+#         name="get_incomplete_todos",
+#         description="Get the list of todos from the database which are marked as incomplete",
+#         parameters={
+#             "type": "object",
+#             "properties": {},
+#             "required": []
+#         }
+#     ),
+#     FunctionDefinition(
+#         name="clear_todos",
+#         description="Erase all todos from the database",
+#         parameters={
+#             "type": "object",
+#             "properties": {},
+#             "required": []
+#         }
+#     )
+# ]

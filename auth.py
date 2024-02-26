@@ -38,7 +38,7 @@ def get_session():
 @router.post("/",status_code=status.HTTP_201_CREATED,response_model = User)
 async def create_user(*,session:Session = Depends(get_session), user: UserCreate):
     """Create a new user"""
-    user_model = User(username=user.username,useremail=user.useremail, password=password_context.hash(user.password))
+    user_model = UserCreate(username=user.username,useremail=user.useremail, password=password_context.hash(user.password))
     user_item = User.model_validate(user_model)
     if not user_item:
         raise HTTPException(status_code=400, detail="Invalid user data")
